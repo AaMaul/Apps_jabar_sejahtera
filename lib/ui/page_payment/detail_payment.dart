@@ -19,6 +19,9 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
   Timer? countdownTimer;
   Duration myDuration = Duration(days: 1);
 
+  bool isLoading = false;
+
+
   @override
   void initState() {
     starTimer();
@@ -274,7 +277,7 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
             ),
           ),
           SizedBox(
-            width: 100,
+            width: 80,
             child: TextButton(
               onPressed: () {
                 Navigator.push(
@@ -285,13 +288,14 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                 );
               },
               style: TextButton.styleFrom(
+                elevation: 10,
                 backgroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     'OK',
@@ -300,6 +304,10 @@ class _DetailPembayaranState extends State<DetailPembayaran> {
                       fontWeight: bold,
                       color: primaryColor,
                     ),
+                  ),
+                  Icon(
+                    Icons.check_circle,
+                    color: primaryColor,
                   ),
                 ],
               ),
