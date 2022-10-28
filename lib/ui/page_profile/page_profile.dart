@@ -44,350 +44,355 @@ class _PageMyProfileState extends State<PageMyProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 230,
-                ),
-                Container(
-                  height: 190,
-                  decoration: BoxDecoration(
-                    color: primaryColor,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 10,
-                  right: 0,
-                  top: 20,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'My Profile',
-                            style: GoogleFonts.mali().copyWith(
-                              fontSize: 20,
-                              fontWeight: bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 70,
-                          ),
-                          Image.asset(
-                            'assets/img/img_jds.png',
-                            width: 60,
-                            height: 40,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Image.asset(
-                            'assets/img/img_diskomifo.png',
-                            width: 70,
-                            height: 40,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Image.asset(
-                            'assets/img/img_logo_white.png',
-                            width: 70,
-                            height: 40,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    child: Image.asset(
-                      enableEditName == true && enableEditEmail == true ? "assets/img/img_profile_edit.png" :'assets/img/img_profile.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  Text(
-                    'Nama Lengkap',
-                    style: GoogleFonts.beVietnamPro().copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 230,
+                  ),
+                  Container(
+                    height: 190,
+                    decoration: BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextFormField(
-                    enabled: enableEditName,
-                    controller: editNameController,
-                    decoration: InputDecoration(
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: primaryColor,
-                          )),
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          'assets/img/img_ic_name.png',
-                          width: 35,
-                          height: 35,
+                  Positioned(
+                    left: 10,
+                    right: 0,
+                    top: 20,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'My Profile',
+                              style: GoogleFonts.mali().copyWith(
+                                fontSize: 20,
+                                fontWeight: bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 70,
+                            ),
+                            Image.asset(
+                              'assets/img/img_jds.png',
+                              width: 60,
+                              height: 40,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Image.asset(
+                              'assets/img/img_diskomifo.png',
+                              width: 70,
+                              height: 40,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Image.asset(
+                              'assets/img/img_logo_white.png',
+                              width: 70,
+                              height: 40,
+                            ),
+                          ],
                         ),
-                      ),
-                      // labelText: 'Ari Maulana. A',
-                      labelStyle: GoogleFonts.beVietnamPro().copyWith(
-                        fontSize: 16,
-                        fontWeight: bold,
-                        color: Colors.black,
-                      ),
-                      contentPadding: const EdgeInsets.all(12),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Email Terdaftar',
-                    style: GoogleFonts.beVietnamPro().copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextFormField(
-                    enabled: enableEditEmail,
-                    controller: editEmailController,
-                    decoration: InputDecoration(
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: primaryColor,
-                          )),
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          'assets/img/img_ic_email.png',
-                          width: 35,
-                          height: 35,
-                        ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      child: Image.asset(
+                        enableEditName == true && enableEditEmail == true ? "assets/img/img_profile_edit.png" :'assets/img/img_profile.png',
+                        width: 100,
+                        height: 100,
                       ),
-                      // labelText: 'maul@gmail.com',
-                      labelStyle: GoogleFonts.beVietnamPro().copyWith(
-                        fontSize: 16,
-                        fontWeight: bold,
-                        color: Colors.black,
-                      ),
-                      contentPadding: const EdgeInsets.all(12),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'No Tlp',
-                    style: GoogleFonts.beVietnamPro().copyWith(
-                      fontSize: 14,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  TextFormField(
-                    enabled: enableEditPhone,
-                    controller: editPhoneController,
-                    decoration: InputDecoration(
-                      disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: primaryColor,
-                          )),
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          'assets/img/img_ic_phone.png',
-                          width: 35,
-                          height: 35,
-                        ),
-                      ),
-                      // labelText: '+62 821 2278 3908',
-                      labelStyle: GoogleFonts.beVietnamPro().copyWith(
-                        fontSize: 16,
-                        fontWeight: bold,
-                        color: Colors.black,
-                      ),
-                      contentPadding: const EdgeInsets.all(12),
                     ),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  child: TextButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              alignment: Alignment.center,
-                              title: const Text('Apakah yakin ingin Keluar?'),
-                              titleTextStyle: GoogleFonts.mali().copyWith(
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Nama Lengkap',
+                      style: GoogleFonts.beVietnamPro().copyWith(
+                        fontSize: 14,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      enabled: enableEditName,
+                      controller: editNameController,
+                      decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: primaryColor,
+                            )),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'assets/img/img_ic_name.png',
+                            width: 35,
+                            height: 35,
+                          ),
+                        ),
+                        // labelText: 'Ari Maulana. A',
+                        labelStyle: GoogleFonts.beVietnamPro().copyWith(
+                          fontSize: 16,
+                          fontWeight: bold,
+                          color: Colors.black,
+                        ),
+                        contentPadding: const EdgeInsets.all(12),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Email Terdaftar',
+                      style: GoogleFonts.beVietnamPro().copyWith(
+                        fontSize: 14,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      enabled: enableEditEmail,
+                      controller: editEmailController,
+                      decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: primaryColor,
+                            )),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'assets/img/img_ic_email.png',
+                            width: 35,
+                            height: 35,
+                          ),
+                        ),
+                        // labelText: 'maul@gmail.com',
+                        labelStyle: GoogleFonts.beVietnamPro().copyWith(
+                          fontSize: 16,
+                          fontWeight: bold,
+                          color: Colors.black,
+                        ),
+                        contentPadding: const EdgeInsets.all(12),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'No Tlp',
+                      style: GoogleFonts.beVietnamPro().copyWith(
+                        fontSize: 14,
+                        fontWeight: bold,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    TextFormField(
+                      enabled: enableEditPhone,
+                      controller: editPhoneController,
+                      decoration: InputDecoration(
+                        disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: primaryColor,
+                            )),
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            'assets/img/img_ic_phone.png',
+                            width: 35,
+                            height: 35,
+                          ),
+                        ),
+                        // labelText: '+62 821 2278 3908',
+                        labelStyle: GoogleFonts.beVietnamPro().copyWith(
+                          fontSize: 16,
+                          fontWeight: bold,
+                          color: Colors.black,
+                        ),
+                        contentPadding: const EdgeInsets.all(12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: TextButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                alignment: Alignment.center,
+                                title: const Text('Apakah yakin ingin Keluar?'),
+                                titleTextStyle: GoogleFonts.mali().copyWith(
+                                  fontSize: 18,
+                                  fontWeight: bold,
+                                  color: Colors.black,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                        textStyle: GoogleFonts.mali()
+                                            .copyWith(fontSize: 14)),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            storage.deleteAuthResponse();
+                                            return Login();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      'YA',
+                                      style: GoogleFonts.mali().copyWith(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                        textStyle: GoogleFonts.mali()
+                                            .copyWith(fontSize: 14)),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'TIDAK',
+                                      style: GoogleFonts.mali().copyWith(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
+                        storage.deleteAuthResponse();
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/img/img_ic_logout_white.png',
+                            width: 30,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Logout',
+                            style: GoogleFonts.mali().copyWith(
+                              fontSize: 18,
+                              fontWeight: bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          enableEditPhone = !enableEditPhone;
+                          enableEditEmail = !enableEditEmail;
+                          enableEditName = !enableEditName;
+                        });
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            enableEditName == true && enableEditEmail == true ? "assets/img/img_ic_save.png" : 'assets/img/img_ic_editprofil_white.png',
+                            width: 30,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Text(
+                              enableEditName == true && enableEditEmail == true ? "Save Profile" : 'Edit Profile',
+                              overflow: TextOverflow.fade,
+                              style: GoogleFonts.mali().copyWith(
                                 fontSize: 18,
                                 fontWeight: bold,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
-                              actions: [
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                      textStyle: GoogleFonts.mali()
-                                          .copyWith(fontSize: 14)),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          storage.deleteAuthResponse();
-                                          return Login();
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    'YA',
-                                    style: GoogleFonts.mali().copyWith(
-                                      fontSize: 18,
-                                      fontWeight: bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                      textStyle: GoogleFonts.mali()
-                                          .copyWith(fontSize: 14)),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'TIDAK',
-                                    style: GoogleFonts.mali().copyWith(
-                                      fontSize: 18,
-                                      fontWeight: bold,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          });
-                      storage.deleteAuthResponse();
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/img/img_ic_logout_white.png',
-                          width: 30,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          'Logout',
-                          style: GoogleFonts.mali().copyWith(
-                            fontSize: 20,
-                            fontWeight: bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  child: TextButton(
-                    onPressed: () {
-                      setState(() {
-                        enableEditPhone = !enableEditPhone;
-                        enableEditEmail = !enableEditEmail;
-                        enableEditName = !enableEditName;
-                      });
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          enableEditName == true && enableEditEmail == true ? "assets/img/img_ic_save.png" : 'assets/img/img_ic_editprofil_white.png',
-                          width: 30,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          enableEditName == true && enableEditEmail == true ? "Save Profile" : 'Edit Profile',
-                          style: GoogleFonts.mali().copyWith(
-                            fontSize: 20,
-                            fontWeight: bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -76,29 +76,30 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                             ),
                           ),
                           SizedBox(
-                            height: 100,
+                            height: 75,
                             width: 150,
                             child: TextFormField(
                               controller: dateinput,
                               decoration: const InputDecoration(
-                                  icon: Icon(Icons.calendar_month_rounded),
-                                  ),
+                                icon: Icon(Icons.calendar_month_rounded),
+                              ),
                               readOnly: true,
                               onTap: () async {
                                 DateTime? pickeDate = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(2000),
-                                    lastDate: DateTime(2101)
-                                );
-                                if(pickeDate !=null) {
+                                    lastDate: DateTime(2101));
+                                if (pickeDate != null) {
                                   print(pickeDate);
-                                  String formattedDate = DateFormat('dd-MM-yyyy').format(pickeDate);
+                                  String formattedDate =
+                                      DateFormat('dd-MM-yyyy')
+                                          .format(pickeDate);
                                   print(formattedDate);
                                   setState(() {
                                     dateinput.text = formattedDate;
                                   });
-                                }else{
+                                } else {
                                   print("Date is not selected");
                                 }
                               },
@@ -116,29 +117,30 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                             ),
                           ),
                           SizedBox(
-                            height: 100,
+                            height: 75,
                             width: 150,
                             child: TextFormField(
                               controller: dateinput,
                               decoration: const InputDecoration(
-                                  icon: Icon(Icons.calendar_month_rounded),
-                                  ),
+                                icon: Icon(Icons.calendar_month_rounded),
+                              ),
                               readOnly: true,
                               onTap: () async {
                                 DateTime? pickeDate = await showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime(2000),
-                                    lastDate: DateTime(2101)
-                                );
-                                if(pickeDate !=null) {
+                                    lastDate: DateTime(2101));
+                                if (pickeDate != null) {
                                   print(pickeDate);
-                                  String formattedDate = DateFormat('dd-MM-yyyy').format(pickeDate);
+                                  String formattedDate =
+                                      DateFormat('dd-MM-yyyy')
+                                          .format(pickeDate);
                                   print(formattedDate);
                                   setState(() {
                                     dateinput.text = formattedDate;
                                   });
-                                }else{
+                                } else {
                                   print("Date is not selected");
                                 }
                               },
@@ -150,12 +152,49 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                   ),
                 ),
                 ListView.builder(
-                  scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
                     itemCount: AppConstant.listPemasukan.length,
                     itemBuilder: (context, index) {
-                    return TextFormField(
-                      
-                    );
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                AppConstant.listPemasukan[index]['no']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              Text(
+                                AppConstant.listPemasukan[index]['tgl']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              Text(
+                                AppConstant.listPemasukan[index]['pemasukan']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              Text(
+                                AppConstant.listPemasukan[index]['nominal']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     }),
               ],
             ),

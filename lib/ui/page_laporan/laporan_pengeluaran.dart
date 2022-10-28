@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import '../../constant/app_constant.dart';
 import '../../theme/theme.dart';
 
 class LaporanPengeluaran extends StatefulWidget {
@@ -77,7 +78,7 @@ class _LaporanPengeluaranState extends State<LaporanPengeluaran> {
                             ),
                           ),
                           SizedBox(
-                            height: 100,
+                            height: 70,
                             width: 150,
                             child: TextFormField(
                               controller: dateinput,
@@ -117,7 +118,7 @@ class _LaporanPengeluaranState extends State<LaporanPengeluaran> {
                             ),
                           ),
                           SizedBox(
-                            height: 100,
+                            height: 70,
                             width: 150,
                             child: TextFormField(
                               controller: dateinput,
@@ -150,6 +151,51 @@ class _LaporanPengeluaranState extends State<LaporanPengeluaran> {
                     ],
                   ),
                 ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: AppConstant.listPengeluaran.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                AppConstant.listPengeluaran[index]['no']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              Text(
+                                AppConstant.listPengeluaran[index]['tgl']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              Text(
+                                AppConstant.listPengeluaran[index]['pemasukan']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              Text(
+                                AppConstant.listPengeluaran[index]['nominal']!,
+                                style: GoogleFonts.beVietnamPro().copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
