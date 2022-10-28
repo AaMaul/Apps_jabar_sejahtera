@@ -1,16 +1,65 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/ui/page_payment/screen_proses.dart';
 
 import '../../theme/theme.dart';
 
-class DetailPembayaran extends StatelessWidget {
+class DetailPembayaran extends StatefulWidget {
   final String image;
 
   const DetailPembayaran({Key? key, required this.image}) : super(key: key);
 
   @override
+  State<DetailPembayaran> createState() => _DetailPembayaranState();
+}
+
+class _DetailPembayaranState extends State<DetailPembayaran> {
+  Timer? countdownTimer;
+  Duration myDuration = Duration(days: 1);
+
+  @override
+  void initState() {
+    starTimer();
+    super.initState();
+  }
+
+  void starTimer() {
+    countdownTimer = Timer.periodic(
+      Duration(seconds: 1),
+      (_) => setCountDown(),
+    );
+  }
+
+  void stopTimer() {
+    setState(() => countdownTimer!.cancel());
+  }
+
+  void resetTimer() {
+    stopTimer();
+    setState(() => myDuration = Duration(days: 1));
+  }
+
+  void setCountDown() {
+    final reduceSecondBy = 1;
+    setState(() {
+      final seconds = myDuration.inSeconds - reduceSecondBy;
+      if (seconds < 0) {
+        countdownTimer!.cancel();
+      } else {
+        myDuration = Duration(seconds: seconds);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    String strDigits(int n) => n.toString().padLeft(2, '0');
+    final days = strDigits(myDuration.inDays);
+    final hours = strDigits(myDuration.inHours.remainder(24));
+    final minutes = strDigits(myDuration.inMinutes.remainder(60));
+    final seconds = strDigits(myDuration.inSeconds.remainder(60));
     return Scaffold(
       backgroundColor: primaryColor,
       appBar: AppBar(
@@ -39,7 +88,7 @@ class DetailPembayaran extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(
-            image,
+            widget.image,
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -106,7 +155,7 @@ class DetailPembayaran extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      '23:59:59',
+                      '$hours:$minutes:$seconds',
                       style: GoogleFonts.beVietnamPro().copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

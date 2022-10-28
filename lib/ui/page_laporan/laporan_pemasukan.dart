@@ -21,10 +21,12 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
   String? selectedValue;
 
   TextEditingController dateinput = TextEditingController();
+  TextEditingController dateinput1 = TextEditingController();
 
   @override
   void initState() {
     dateinput.text = "Pilih Date";
+    dateinput1.text = "Pilih Date";
     super.initState();
   }
 
@@ -120,7 +122,7 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                             height: 75,
                             width: 150,
                             child: TextFormField(
-                              controller: dateinput,
+                              controller: dateinput1,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.calendar_month_rounded),
                               ),
@@ -138,7 +140,7 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                                           .format(pickeDate);
                                   print(formattedDate);
                                   setState(() {
-                                    dateinput.text = formattedDate;
+                                    dateinput1.text = formattedDate;
                                   });
                                 } else {
                                   print("Date is not selected");
