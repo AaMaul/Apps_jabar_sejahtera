@@ -5,8 +5,8 @@ import 'package:jabar_sejahtera/constant/app_constant.dart';
 import 'package:jabar_sejahtera/data/model/login_model.dart';
 import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/autentication/forgot_password.dart';
-import 'package:jabar_sejahtera/ui/autentication/register.dart';
+import 'package:jabar_sejahtera/ui/authentication/forgot_password.dart';
+import 'package:jabar_sejahtera/ui/authentication/register.dart';
 import 'package:jabar_sejahtera/ui/mainPage/main_page.dart';
 
 class Login extends StatefulWidget {
