@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:jabar_sejahtera/ui/page_payment/payment_berhasil.dart';
+import 'package:jabar_sejahtera/ui/payment/payment_berhasil.dart';
 import 'package:lottie/lottie.dart';
 
 class ProsesPembayaran extends StatefulWidget {

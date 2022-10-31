@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/home_page/home.dart';
-import 'package:jabar_sejahtera/ui/kalkulator_zakat/kalkulator_zakat.dart';
-import 'package:jabar_sejahtera/ui/page_galery/pag_galery.dart';
-import 'package:jabar_sejahtera/ui/page_laporan/page_laporan.dart';
+import 'package:jabar_sejahtera/ui/galery/pag_galery.dart';
+import 'package:jabar_sejahtera/ui/home/home.dart';
+import 'package:jabar_sejahtera/ui/kalkulator/kalkulator_zakat.dart';
+import 'package:jabar_sejahtera/ui/laporan/page_laporan.dart';
 import 'package:jabar_sejahtera/ui/page_profile/page_profile.dart';
 
 class MainPage extends StatefulWidget {

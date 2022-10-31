@@ -2,8 +2,8 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/kalkulator_zakat/kalkulator_zakat.dart';
-import 'package:jabar_sejahtera/ui/page_payment/metode_payment.dart';
+import 'package:jabar_sejahtera/ui/kalkulator/kalkulator_zakat.dart';
+import 'package:jabar_sejahtera/ui/payment/metode_payment.dart';
 
 class PageZakat extends StatefulWidget {
   const PageZakat({Key? key}) : super(key: key);

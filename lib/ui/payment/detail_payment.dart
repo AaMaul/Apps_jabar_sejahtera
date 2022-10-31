@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jabar_sejahtera/ui/page_payment/screen_proses.dart';
+import 'package:jabar_sejahtera/ui/payment/screen_proses.dart';
 
 import '../../theme/theme.dart';
 

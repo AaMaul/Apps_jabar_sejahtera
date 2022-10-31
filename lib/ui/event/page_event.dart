@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/page_event/detail_event.dart';
+import 'package:jabar_sejahtera/ui/event/detail_event.dart';
 
 class PageEvent extends StatelessWidget {
   const PageEvent({Key? key}) : super(key: key);

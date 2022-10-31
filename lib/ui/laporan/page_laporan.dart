@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jabar_sejahtera/ui/kalkulator_zakat/zakat_harta.dart';
-import 'package:jabar_sejahtera/ui/kalkulator_zakat/zakat_penghasilan.dart';
+import 'package:jabar_sejahtera/ui/laporan/laporan_pemasukan.dart';
+import 'package:jabar_sejahtera/ui/laporan/laporan_pengeluaran.dart';
 
 import '../../theme/theme.dart';
 
-class PageKalkulator extends StatefulWidget {
-  const PageKalkulator({Key? key}) : super(key: key);
+class PageLaporan extends StatefulWidget {
+  const PageLaporan({Key? key}) : super(key: key);
 
   @override
-  State<PageKalkulator> createState() => _PageKalkulatorState();
+  State<PageLaporan> createState() => _PageLaporanState();
 }
 
-class _PageKalkulatorState extends State<PageKalkulator> {
+class _PageLaporanState extends State<PageLaporan> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -33,7 +33,7 @@ class _PageKalkulatorState extends State<PageKalkulator> {
             ),
           ),
           title: Text(
-            'Kalkulator Zakat',
+            'Laporan',
             style: GoogleFonts.mali().copyWith(
               fontSize: 20,
               fontWeight: bold,
@@ -48,17 +48,20 @@ class _PageKalkulatorState extends State<PageKalkulator> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.calculate_rounded,
-                      color: primaryColor,
+                    Image.asset(
+                      'assets/img/img_ic_laporan1.png',
+                      width: 25,
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Text(
-                      'Zakat Harta',
+                      'Pemasukan',
                       style: GoogleFonts.mali().copyWith(
-                          fontSize: 14, fontWeight: bold, color: primaryColor),
+                        fontSize: 14,
+                        fontWeight: bold,
+                        color: primaryColor,
+                      ),
                     ),
                   ],
                 ),
@@ -67,15 +70,15 @@ class _PageKalkulatorState extends State<PageKalkulator> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.calculate_rounded,
-                      color: primaryColor,
+                    Image.asset(
+                      'assets/img/img_ic_laporan1.png',
+                      width: 25,
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Text(
-                      'Zakat Penghasilan',
+                      'Pengeluaran',
                       style: GoogleFonts.mali().copyWith(
                         fontSize: 14,
                         fontWeight: bold,
@@ -89,45 +92,11 @@ class _PageKalkulatorState extends State<PageKalkulator> {
           ),
         ),
         body: const TabBarView(
-        children: [
-          ZakatHarta(),
-          ZakatPenghasilan(),
-        ],
+          children: [
+            LaporanPemasukan(),
+            LaporanPengeluaran(),
+          ],
         ),
-        // body: SafeArea(
-        //   child: Column(
-        //     children: [
-        //       Container(
-        //         margin: const EdgeInsets.only(
-        //           left: 10,
-        //           top: 10,
-        //         ),
-        //         child: GestureDetector(
-        //           onTap: () {
-        //             Navigator.pop(context);
-        //           },
-        //           child: Row(
-        //             children: [
-        //               Icon(
-        //                 Icons.arrow_back,
-        //                 color: listColor,
-        //                 size: 35,
-        //               ),
-        //               Text(
-        //                 'Kalkulator Zakat',
-        //                 style: GoogleFonts.mali().copyWith(
-        //                   fontSize: 20,
-        //                   fontWeight: bold,
-        //                   color: listColor,
-        //                 ),
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/constant/app_constant.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/page_payment/detail_payment.dart';
+import 'package:jabar_sejahtera/ui/payment/detail_payment.dart';
 
 class DetailPayment extends StatefulWidget {
   const DetailPayment({Key? key}) : super(key: key);

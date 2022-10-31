@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../theme/theme.dart';
-import '../page_payment/metode_payment.dart';
+import '../payment/metode_payment.dart';
 
 class FormDonasi extends StatefulWidget {
   const FormDonasi({Key? key}) : super(key: key);

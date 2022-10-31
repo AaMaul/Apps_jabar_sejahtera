@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/ui/login/login.dart';
-import 'package:jabar_sejahtera/ui/main_page/main_page.dart';
+import 'package:jabar_sejahtera/ui/mainPage/main_page.dart';
 
 import '../onboarding/onboarding_screen.dart';
 

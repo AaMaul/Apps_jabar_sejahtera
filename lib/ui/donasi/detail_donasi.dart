@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/page_donasi/form_donasi.dart';
+import 'package:jabar_sejahtera/ui/donasi/form_donasi.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class DetailDonasi extends StatelessWidget {

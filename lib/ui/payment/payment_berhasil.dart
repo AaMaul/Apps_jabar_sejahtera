@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/main_page/main_page.dart';
+import 'package:jabar_sejahtera/ui/mainPage/main_page.dart';
 import 'package:lottie/lottie.dart';
 
 class PembayaranBerhasil extends StatefulWidget {

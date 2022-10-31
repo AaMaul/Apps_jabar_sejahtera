@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:jabar_sejahtera/ui/page_donasi/page_donasi.dart';
-import 'package:jabar_sejahtera/ui/page_event/page_event.dart';
+import 'package:jabar_sejahtera/ui/donasi/page_donasi.dart';
+import 'package:jabar_sejahtera/ui/event/page_event.dart';
 
 import '../page_zakat/page_zakat.dart';
 

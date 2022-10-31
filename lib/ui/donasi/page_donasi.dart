@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jabar_sejahtera/ui/page_donasi/detail_donasi.dart';
+import 'package:jabar_sejahtera/ui/donasi/detail_donasi.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../theme/theme.dart';

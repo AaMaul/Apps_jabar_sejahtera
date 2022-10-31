@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
 
-import '../page_payment/metode_payment.dart';
+import '../payment/metode_payment.dart';
 
 class ZakatPenghasilan extends StatefulWidget {
   const ZakatPenghasilan({Key? key}) : super(key: key);
