@@ -7,7 +7,7 @@ import 'package:jabar_sejahtera/theme/theme.dart';
 import 'package:jabar_sejahtera/ui/donasi/page_donasi.dart';
 import 'package:jabar_sejahtera/ui/event/page_event.dart';
 
-import '../page_zakat/page_zakat.dart';
+import '../zakat/page_zakat.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

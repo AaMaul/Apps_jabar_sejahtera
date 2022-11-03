@@ -2,12 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
 import 'package:jabar_sejahtera/ui/galery/pag_galery.dart';
 import 'package:jabar_sejahtera/ui/home/home.dart';
 import 'package:jabar_sejahtera/ui/kalkulator/kalkulator_zakat.dart';
 import 'package:jabar_sejahtera/ui/laporan/page_laporan.dart';
-import 'package:jabar_sejahtera/ui/page_profile/page_profile.dart';
+import 'package:jabar_sejahtera/ui/login/login.dart';
+import 'package:jabar_sejahtera/ui/profile/page_profile.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -18,20 +20,32 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
+
+  var storage = StorageManager();
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    Text(
-      'Index 1: Galery',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Laporan',
-      style: optionStyle,
-    ),
-    PageMyProfile()
-  ];
+
+  List<Widget> _widgetOptions = [];
+
+  @override
+  void initState() {
+    _widgetOptions = <Widget>[
+      const HomePage(),
+      const Text(
+        'Index 1: Galery',
+        style: optionStyle,
+      ),
+      const Text(
+        'Index 2: Laporan',
+        style: optionStyle,
+      ),
+      storage.getAccessToken() != null ? PageMyProfile() : Login()
+    ];
+    super.initState();
+  }
+
+
 
   void _onItemTapped(int index) {
     switch (index) {
@@ -57,11 +71,20 @@ class _MainPageState extends State<MainPage> {
         break;
       case 3:
         {
-          setState(
-                () {
-              _selectedIndex = index;
-            },
-          );
+          if(storage.getAccessToken() == null) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Login(),
+              ),
+            );
+          } else {
+            setState(
+                  () {
+                _selectedIndex = index;
+              },
+            );
+          }
         }
         break;
       default:

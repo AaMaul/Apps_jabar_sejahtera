@@ -1,10 +1,34 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jabar_sejahtera/constant/app_constant.dart';
+import 'package:jabar_sejahtera/data/model/event_model.dart';
+import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
 import 'package:jabar_sejahtera/ui/event/detail_event.dart';
 
-class PageEvent extends StatelessWidget {
+class PageEvent extends StatefulWidget {
   const PageEvent({Key? key}) : super(key: key);
+
+  @override
+  State<PageEvent> createState() => _PageEventState();
+}
+
+class _PageEventState extends State<PageEvent> {
+
+  final _dio = Dio();
+  var storage = StorageManager();
+
+  EventModel? eventModel;
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    _dio.options = BaseOptions(baseUrl: AppConstant.baseUrl);
+    listEvent();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,131 +98,169 @@ class PageEvent extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PageDetailEvent(),
-                    ),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Card(
-                      shape: Border.all(
-                        width: 2,
-                        color: primaryColor,
-                      ),
-                      elevation: 8,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+            eventModel != null ?
+            Expanded(
+              child: ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: eventModel?.data?.length,
+                itemBuilder: (context, index) => SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PageDetailEvent(
+                            index: index,
+                            eventModel: eventModel?.data?[index],
+                          ),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Card(
+                          shape: Border.all(
+                            width: 2,
+                            color: primaryColor,
+                          ),
+                          elevation: 8,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width - 240,
+                                      child: Text(
+                                        eventModel?.data?[index].title ?? "-",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.beVietnamPro().copyWith(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Image.asset(
+                                      'assets/img/img_ic_free.png',
+                                      width: 55,
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/img/img_ic_event1.png',
+                                      width: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      eventModel?.data?[index].organizer ?? "_",
+                                      style: GoogleFonts.beVietnamPro().copyWith(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/img/img_ic_event2.png',
+                                      width: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      eventModel?.data?[index].location ?? "_",
+                                      style: GoogleFonts.beVietnamPro().copyWith(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/img/img_ic_event3.png',
+                                      width: 20,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      eventModel?.data?[index].date ?? "-",
+                                      style: GoogleFonts.beVietnamPro().copyWith(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Peduli Banjir JABAR',
-                                  style: GoogleFonts.beVietnamPro().copyWith(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Image.asset(
-                                  'assets/img/img_ic_free.png',
-                                  width: 55,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/img/img_ic_event1.png',
-                                  width: 20,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  'Jabar Sejahtera',
-                                  style: GoogleFonts.beVietnamPro().copyWith(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/img/img_ic_event2.png',
-                                  width: 20,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Bogor - Jawa Barat',
-                                  style: GoogleFonts.beVietnamPro().copyWith(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/img/img_ic_event3.png',
-                                  width: 20,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  '25-Oktober-2022',
-                                  style: GoogleFonts.beVietnamPro().copyWith(
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 5,
+                              ),
+                              child: Image.network(
+                                eventModel?.data?[index].image ?? "https://",
+                                width: 150,
+                                height: 150,
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            right: 5,
-                          ),
-                          child: Image.asset(
-                            'assets/img/img_banner_event1.png',
-                            width: 150,
-                            height: 150,
-                          ),
-                        ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            )
+            : const CircularProgressIndicator.adaptive()
           ],
         ),
       ),
     );
+  }
+
+  void listEvent() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await _dio.get("/events",
+          options: Options(headers: {"Accept": "application/json"}));
+      print(response.data);
+      eventModel = EventModel.fromJson(response.data);
+      setState(() {});
+    } on DioError catch (e) {
+      print(e.response?.data);
+      setState(() {
+        isLoading = false;
+      });
+      String errorMessage = "";
+      if (e.response?.statusCode != 200) {
+        errorMessage = e.message;
+      }
+    }
   }
 }

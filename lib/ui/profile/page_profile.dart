@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jabar_sejahtera/constant/app_constant.dart';
 import 'package:jabar_sejahtera/data/model/profile_model.dart';
 import 'package:jabar_sejahtera/data/storage_manager.dart';
@@ -30,13 +33,12 @@ class _PageMyProfileState extends State<PageMyProfile> {
   final editEmailController = TextEditingController();
   final editPhoneController = TextEditingController();
 
+  File? fotoProfile;
+
   @override
   void initState() {
     _dio.options = BaseOptions(baseUrl: AppConstant.baseUrl);
     getUserProfile();
-    editNameController.text = 'Ari Maulana. A';
-    editEmailController.text = 'maul@gmail.com';
-    editPhoneController.text = "89887829748392";
     super.initState();
   }
 
@@ -115,11 +117,16 @@ class _PageMyProfileState extends State<PageMyProfile> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: Container(
-                      child: Image.asset(
-                        enableEditName == true && enableEditEmail == true ? "assets/img/img_profile_edit.png" :'assets/img/img_profile.png',
-                        width: 100,
-                        height: 100,
+                    child: GestureDetector(
+                      onTap: () {
+                        getSinglePhoto();
+                      },
+                      child: Container(
+                        child: fotoProfile == null  ? Image.asset(
+                          enableEditName == true && enableEditEmail == true ? 'assets/img/img_profile.png' :'assets/img/img_profile.png',
+                          width: 100,
+                          height: 100,
+                        ) : Image.network(_profileModel?.data?.image ?? "https://"),
                       ),
                     ),
                   ),
@@ -357,6 +364,9 @@ class _PageMyProfileState extends State<PageMyProfile> {
                           enableEditPhone = !enableEditPhone;
                           enableEditEmail = !enableEditEmail;
                           enableEditName = !enableEditName;
+                          // if(enableEditName == false && enableEditEmail == false) {
+                            updateUserProfile();
+                          // }
                         });
                       },
                       style: TextButton.styleFrom(
@@ -404,7 +414,7 @@ class _PageMyProfileState extends State<PageMyProfile> {
     });
     try {
       var response =
-          await _dio.get("/api/v1/users/${storage.getCurrentUserId()}",
+          await _dio.get("/users/${storage.getCurrentUserId()}",
               options: Options(headers: {
                 "Accept": "application/json",
                 "Authorization": "Bearer ${storage.getAccessToken()}"
@@ -413,6 +423,9 @@ class _PageMyProfileState extends State<PageMyProfile> {
         setState(() {
           _profileModel = ProfileModel.fromJson(response.data);
           isLoading = false;
+          editNameController.text = _profileModel?.data?.name ?? "-";
+          editEmailController.text = _profileModel?.data?.email ?? "-";
+          editPhoneController.text = _profileModel?.data?.userDetail?.phoneNumber ?? "-";
         });
       }
     } on DioError catch (e) {
@@ -422,6 +435,62 @@ class _PageMyProfileState extends State<PageMyProfile> {
       print(e.error);
     }
   }
+
+  void updateUserProfile() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var formData = FormData.fromMap({
+        'name' : editNameController.text,
+        'email' : editEmailController.text,
+        'phone_number' : editPhoneController.text,
+        "_method": "PUT"
+      });
+
+      if (fotoProfile != null) {
+        formData.files.addAll([
+          MapEntry("image", await MultipartFile.fromFile(fotoProfile!.path))
+        ]);
+      }
+      var response =
+      await _dio.post("/users/${storage.getCurrentUserId()}",
+          data: formData,
+          options: Options(headers: {
+            "Accept": "application/json",
+            "Authorization": "Bearer ${storage.getAccessToken()}"
+          }));
+      print("statusCode : ${response.statusCode}");
+      if (response.statusCode == 200) {
+        setState(() {
+          print(response.data.toString());
+          isLoading = false;
+        });
+      }
+    } on DioError catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print(e.response?.data['errors']);
+    }
+  }
+
+  getSinglePhoto() async {
+    final ImagePicker picker = ImagePicker();
+    // Pick an image
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      File file = File(image.path);
+      fotoProfile = file;
+      setState(() {
+
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
 }
 
 // body: SafeArea(
