@@ -32,7 +32,7 @@ class _PageGaleryState extends State<PageGalery> {
   @override
   void initState() {
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      'https://raw.githubusercontent.com/AaMaul/Apps_jabar_sejahtera/master/gitassets/video_galery.mp4',
       videoPlayerOptions: VideoPlayerOptions(
         allowBackgroundPlayback: true
       )
