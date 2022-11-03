@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
+import 'package:video_player/video_player.dart';
 
 class PageGalery extends StatefulWidget {
   const PageGalery({Key? key}) : super(key: key);
@@ -11,17 +14,43 @@ class PageGalery extends StatefulWidget {
 
 class _PageGaleryState extends State<PageGalery> {
   List<String> listImage = [
-    'assets/img/img_galery2.png',
-    'assets/img/img_galery1.png',
     'assets/img/img_galery1.png',
     'assets/img/img_galery2.png',
-    'assets/img/img_galery2.png',
+    'assets/img/img_galery3.jpeg',
+    'assets/img/img_galery4.jpg',
+    'assets/img/img_galery5.jpg',
+    'assets/img/img_galery6.jpg',
+    'assets/img/img_galery7.jpg',
+    'assets/img/img_galery8.jpeg',
     'assets/img/img_galery1.png',
-    'assets/img/img_galery1.png',
     'assets/img/img_galery2.png',
-    'assets/img/img_galery2.png',
-    'assets/img/img_galery1.png',
   ];
+
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    _controller = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+      videoPlayerOptions: VideoPlayerOptions(
+        allowBackgroundPlayback: true
+      )
+    );
+    _initializeVideoPlayerFuture = _controller.initialize();
+
+    _controller.setLooping(true);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +96,15 @@ class _PageGaleryState extends State<PageGalery> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.95,
-                      height: 175,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                      ),
+                    FutureBuilder(
+                      future: _initializeVideoPlayerFuture,
+                      builder: (context, snapshot) {
+                        if ( snapshot.connectionState == ConnectionState.done){
+                          return AspectRatio(aspectRatio: _controller.value.aspectRatio, child: VideoPlayer(_controller),);
+                        } else {
+                          return Center(child: CircularProgressIndicator(),);
+                        }
+                      },
                     ),
                     SizedBox(
                       height: 20,

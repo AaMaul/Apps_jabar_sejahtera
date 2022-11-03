@@ -171,7 +171,7 @@ class _PageDonasiState extends State<PageDonasi> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width - 175,
+                                            width: MediaQuery.of(context).size.width - 200,
                                             child: Text(
                                               donationModel?.data?[index].title ?? "-",
                                               overflow: TextOverflow.ellipsis,
