@@ -151,6 +151,7 @@ class _DetailDonasiState extends State<DetailDonasi> {
                                 ),
                               ),
                               progressColor: primaryColor,
+                              barRadius: const Radius.circular(10),
                             ),
                             const SizedBox(
                               height: 10,
@@ -258,7 +259,7 @@ class _DetailDonasiState extends State<DetailDonasi> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FormDonasi(),
+                              builder: (context) => FormDonasi(donationId: widget.donationModel?.id.toString()),
                             ),
                           );
                         },

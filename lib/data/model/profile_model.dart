@@ -1,6 +1,6 @@
 /// status : true
 /// message : "Users"
-/// data : {"id":1,"name":"Ari Maulina Agustina","email":"maul@gmail.com","email_verified_at":null,"image":"img/default.jpg","role":"1","created_at":"2022-10-25T14:45:16.000000Z","updated_at":"2022-10-25T14:45:16.000000Z","deleted_at":null,"user_detail":{"id":1,"phone_number":"08212837232","security_question":"toket","image":"default.jpg","created_at":"2022-10-25T14:45:16.000000Z","updated_at":"2022-10-25T14:45:16.000000Z"}}
+/// data : {"id":1,"name":"Ari Maulana Agustina","email":"maul@gmail.com","email_verified_at":null,"role":"1","created_at":"2022-11-03T13:57:20.000000Z","updated_at":"2022-11-04T01:09:47.000000Z","deleted_at":null,"user_detail":{"id":1,"phone_number":"08212837232","security_question":"toket","image":"http://localhost:8000/storage/img/default.jpg","created_at":"2022-11-03T13:57:20.000000Z","updated_at":"2022-11-04T01:09:47.000000Z"}}
 
 class ProfileModel {
   ProfileModel({
@@ -44,15 +44,14 @@ ProfileModel copyWith({  bool? status,
 }
 
 /// id : 1
-/// name : "Ari Maulina Agustina"
+/// name : "Ari Maulana Agustina"
 /// email : "maul@gmail.com"
 /// email_verified_at : null
-/// image : "img/default.jpg"
 /// role : "1"
-/// created_at : "2022-10-25T14:45:16.000000Z"
-/// updated_at : "2022-10-25T14:45:16.000000Z"
+/// created_at : "2022-11-03T13:57:20.000000Z"
+/// updated_at : "2022-11-04T01:09:47.000000Z"
 /// deleted_at : null
-/// user_detail : {"id":1,"phone_number":"08212837232","security_question":"toket","image":"default.jpg","created_at":"2022-10-25T14:45:16.000000Z","updated_at":"2022-10-25T14:45:16.000000Z"}
+/// user_detail : {"id":1,"phone_number":"08212837232","security_question":"toket","image":"http://localhost:8000/storage/img/default.jpg","created_at":"2022-11-03T13:57:20.000000Z","updated_at":"2022-11-04T01:09:47.000000Z"}
 
 class Data {
   Data({
@@ -60,7 +59,6 @@ class Data {
       String? name, 
       String? email, 
       dynamic emailVerifiedAt, 
-      String? image, 
       String? role, 
       String? createdAt, 
       String? updatedAt, 
@@ -70,7 +68,6 @@ class Data {
     _name = name;
     _email = email;
     _emailVerifiedAt = emailVerifiedAt;
-    _image = image;
     _role = role;
     _createdAt = createdAt;
     _updatedAt = updatedAt;
@@ -83,7 +80,6 @@ class Data {
     _name = json['name'];
     _email = json['email'];
     _emailVerifiedAt = json['email_verified_at'];
-    _image = json['image'];
     _role = json['role'];
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
@@ -94,7 +90,6 @@ class Data {
   String? _name;
   String? _email;
   dynamic _emailVerifiedAt;
-  String? _image;
   String? _role;
   String? _createdAt;
   String? _updatedAt;
@@ -104,7 +99,6 @@ Data copyWith({  num? id,
   String? name,
   String? email,
   dynamic emailVerifiedAt,
-  String? image,
   String? role,
   String? createdAt,
   String? updatedAt,
@@ -114,7 +108,6 @@ Data copyWith({  num? id,
   name: name ?? _name,
   email: email ?? _email,
   emailVerifiedAt: emailVerifiedAt ?? _emailVerifiedAt,
-  image: image ?? _image,
   role: role ?? _role,
   createdAt: createdAt ?? _createdAt,
   updatedAt: updatedAt ?? _updatedAt,
@@ -125,7 +118,6 @@ Data copyWith({  num? id,
   String? get name => _name;
   String? get email => _email;
   dynamic get emailVerifiedAt => _emailVerifiedAt;
-  String? get image => _image;
   String? get role => _role;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
@@ -138,7 +130,6 @@ Data copyWith({  num? id,
     map['name'] = _name;
     map['email'] = _email;
     map['email_verified_at'] = _emailVerifiedAt;
-    map['image'] = _image;
     map['role'] = _role;
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
@@ -154,9 +145,9 @@ Data copyWith({  num? id,
 /// id : 1
 /// phone_number : "08212837232"
 /// security_question : "toket"
-/// image : "default.jpg"
-/// created_at : "2022-10-25T14:45:16.000000Z"
-/// updated_at : "2022-10-25T14:45:16.000000Z"
+/// image : "http://localhost:8000/storage/img/default.jpg"
+/// created_at : "2022-11-03T13:57:20.000000Z"
+/// updated_at : "2022-11-04T01:09:47.000000Z"
 
 class UserDetail {
   UserDetail({

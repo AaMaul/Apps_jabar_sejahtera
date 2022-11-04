@@ -1,18 +1,34 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jabar_sejahtera/constant/app_constant.dart';
+import 'package:jabar_sejahtera/data/model/form_zakat_model.dart';
+import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
 import 'package:jabar_sejahtera/ui/kalkulator/kalkulator_zakat.dart';
 import 'package:jabar_sejahtera/ui/payment/metode_payment.dart';
 
 class PageZakat extends StatefulWidget {
-  const PageZakat({Key? key}) : super(key: key);
+  final totalBayar;
+  const PageZakat({Key? key, required this.totalBayar}) : super(key: key);
 
   @override
   State<PageZakat> createState() => _PageZakatState();
 }
 
 class _PageZakatState extends State<PageZakat> {
+
+  final _dio = Dio();
+  final storage = StorageManager();
+
+  final namaMuzzakiController = TextEditingController();
+  final nominalZakatController = TextEditingController();
+  final jenisZakatController = TextEditingController();
+
+  FormZakatModel? formZakatModel;
+  bool isLoading = false;
+
   var currencyFormater = CurrencyTextInputFormatter(
     locale: 'id',
     decimalDigits: 0,
@@ -20,6 +36,14 @@ class _PageZakatState extends State<PageZakat> {
   );
 
   String tipeZakat = "Zakat Harta";
+
+  @override
+  void initState() {
+    super.initState();
+    _dio.options = BaseOptions(
+      baseUrl: AppConstant.baseUrl
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,6 +203,7 @@ class _PageZakatState extends State<PageZakat> {
                       height: 8,
                     ),
                     TextFormField(
+                      controller: namaMuzzakiController,
                       decoration: InputDecoration(
                         hintText: 'Masukan Nama Anda',
                         suffixIcon: Icon(
@@ -214,6 +239,7 @@ class _PageZakatState extends State<PageZakat> {
                       height: 8,
                     ),
                     TextFormField(
+                      controller: nominalZakatController,
                       inputFormatters: [currencyFormater],
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -296,12 +322,13 @@ class _PageZakatState extends State<PageZakat> {
                         Expanded(
                           child: TextButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailPayment(),
-                                ),
-                              );
+                              formZakat();
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => DetailPayment(),
+                              //   ),
+                              // );
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: primaryColor,
@@ -309,7 +336,7 @@ class _PageZakatState extends State<PageZakat> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                             ),
-                            child: Row(
+                            child: isLoading? const CircularProgressIndicator.adaptive() : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
@@ -341,5 +368,37 @@ class _PageZakatState extends State<PageZakat> {
         ),
       ),
     );
+  }
+
+  void formZakat() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      _dio.options = BaseOptions(baseUrl: AppConstant.baseUrl);
+      var response = await _dio.post("/zakat/transactions/",
+          data: {
+            'name' : namaMuzzakiController.text,
+            'nominal' : currencyFormater.getUnformattedValue(),
+          },
+          options: Options(headers: {"Accept": "aplication/json"}));
+      print(response.data);
+      if (response.statusCode == 201) {
+        formZakatModel= FormZakatModel.fromJson(response.data);
+        print(response.data);
+        setState(() {
+          isLoading = false;
+        });
+        if (formZakatModel?.status == true) {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MetodePayment()));
+        }
+        print(response.data);
+      }
+    } on DioError catch (e) {
+      print(e.response);
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }

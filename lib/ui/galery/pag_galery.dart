@@ -1,16 +1,17 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-import 'package:video_player/video_player.dart';
+import 'package:jabar_sejahtera/ui/galery/detail_galery.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PageGalery extends StatefulWidget {
   const PageGalery({Key? key}) : super(key: key);
 
   @override
   State<PageGalery> createState() => _PageGaleryState();
+
 }
+
 
 class _PageGaleryState extends State<PageGalery> {
   List<String> listImage = [
@@ -26,120 +27,130 @@ class _PageGaleryState extends State<PageGalery> {
     'assets/img/img_galery2.png',
   ];
 
-  late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
+  YoutubePlayerController? controller;
 
   @override
   void initState() {
-    _controller = VideoPlayerController.network(
-      'https://raw.githubusercontent.com/AaMaul/Apps_jabar_sejahtera/master/gitassets/video_galery.mp4',
-      videoPlayerOptions: VideoPlayerOptions(
-        allowBackgroundPlayback: true
-      )
-    );
-    _initializeVideoPlayerFuture = _controller.initialize();
-
-    _controller.setLooping(true);
-
     super.initState();
+
+    const url ='https://www.youtube.com/watch?v=jNPxNQLjNoo&t=5s';
+    controller = YoutubePlayerController(initialVideoId: YoutubePlayer.convertUrlToId(url)!, flags: YoutubePlayerFlags(
+      mute: false,
+      autoPlay: true,
+      forceHD: true
+    ));
+  }
+
+  @override
+  void deactivate() {
+   controller?.pause();
+
+    super.deactivate();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+   controller?.dispose();
 
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(
-                left: 10,
-                top: 10,
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.arrow_back,
-                      color: listColor,
-                      size: 35,
-                    ),
-                    Text(
-                      'Galery',
-                      style: GoogleFonts.mali().copyWith(
-                        fontSize: 20,
-                        fontWeight: bold,
-                        color: listColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    FutureBuilder(
-                      future: _initializeVideoPlayerFuture,
-                      builder: (context, snapshot) {
-                        if ( snapshot.connectionState == ConnectionState.done){
-                          return AspectRatio(aspectRatio: _controller.value.aspectRatio, child: VideoPlayer(_controller),);
-                        } else {
-                          return Center(child: CircularProgressIndicator(),);
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    GridView.builder(
-                      padding: const EdgeInsets.all(8),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                      ),
-                      itemCount: listImage.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                listImage[index],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: controller!,
       ),
+      builder: (context, player) {
+        return Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                    left: 10,
+                    top: 10,
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.arrow_back,
+                          color: listColor,
+                          size: 35,
+                        ),
+                        Text(
+                          'Galery',
+                          style: GoogleFonts.mali().copyWith(
+                            fontSize: 20,
+                            fontWeight: bold,
+                            color: listColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: player,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        GridView.builder(
+                          padding: const EdgeInsets.all(8),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                          ),
+                          itemCount: listImage.length,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailGalery(imageAssetUrl: listImage[index], index: index.toString(),)));
+                              },
+                              child: Hero(
+                                tag: "gallery$index",
+                                child: Container(
+                                  width: 150,
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        listImage[index],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }

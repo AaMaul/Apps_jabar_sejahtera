@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 
 class DetailGalery extends StatelessWidget {
-  const DetailGalery({Key? key}) : super(key: key);
+  DetailGalery({Key? key, required this.imageAssetUrl, required this.index}) : super(key: key);
+
+  String imageAssetUrl;
+  String index;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: InkWell(
-        onTap: (){
-          Navigator.pop(context);
-        },
-        child: Hero (
-          tag: "Foto1",
-          child: Image.asset("assets/img/img_galery2.png", width: 100,),
+      backgroundColor: Colors.black45,
+      body: Center(
+        child: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Hero(
+            tag: "gallery$index",
+            child: Image.asset(
+              imageAssetUrl,
+              width: MediaQuery.of(context).size.width -10,
+            ),
+          ),
         ),
       ),
     );

@@ -91,7 +91,7 @@ class _PageLaporanState extends State<PageLaporan> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             LaporanPemasukan(),
             LaporanPengeluaran(),

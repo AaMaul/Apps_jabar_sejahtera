@@ -1,8 +1,11 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:jabar_sejahtera/constant/app_constant.dart';
+import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
 
 class LaporanPemasukan extends StatefulWidget {
@@ -13,6 +16,15 @@ class LaporanPemasukan extends StatefulWidget {
 }
 
 class _LaporanPemasukanState extends State<LaporanPemasukan> {
+  var currencyFormater = CurrencyTextInputFormatter(
+    locale: 'id',
+    decimalDigits: 0,
+    symbol: 'Rp. ',
+  );
+
+  final _dio = Dio();
+  final storage = StorageManager();
+
   String hint = 'Pilih Jenis Pemasukan';
   final List<String> items = [
     'Zakat',

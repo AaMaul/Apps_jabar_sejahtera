@@ -2,8 +2,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
-
-import '../payment/metode_payment.dart';
+import 'package:jabar_sejahtera/ui/zakat/page_zakat.dart';
 
 class ZakatPenghasilan extends StatefulWidget {
   const ZakatPenghasilan({Key? key}) : super(key: key);
@@ -594,7 +593,7 @@ class _ZakatPenghasilanState extends State<ZakatPenghasilan> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (contex) => DetailPayment(),
+                              builder: (contex) => PageZakat(totalBayar: harusBayarblnFormater.getUnformattedValue()),
                             ),
                           );
                         },

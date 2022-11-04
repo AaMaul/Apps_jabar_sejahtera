@@ -1,19 +1,37 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jabar_sejahtera/constant/app_constant.dart';
+import 'package:jabar_sejahtera/data/model/form_donasi_model.dart';
+import 'package:jabar_sejahtera/data/storage_manager.dart';
 
 import '../../theme/theme.dart';
 import '../payment/metode_payment.dart';
 
 class FormDonasi extends StatefulWidget {
-  const FormDonasi({Key? key}) : super(key: key);
+  final donationId;
+  FormDonasi({Key? key, required this.donationId}) : super(key: key);
 
   @override
   State<FormDonasi> createState() => _FormDonasiState();
 }
 
 class _FormDonasiState extends State<FormDonasi> {
+
+  final _dio = Dio();
+  final storage = StorageManager();
+
+  final namaDonaturController = TextEditingController();
+  final hamaAllahController = TextEditingController();
+  final nominalDonasiController = TextEditingController();
+  final nominalLainController = TextEditingController();
+  final nominalFixController = TextEditingController();
+  
+  FormDonasiModel? formDonasiModel;
+
   bool isSwitched = false;
+  bool isLoading = false;
 
   var currenccyFormater = CurrencyTextInputFormatter(
     locale: 'id',
@@ -32,6 +50,14 @@ class _FormDonasiState extends State<FormDonasi> {
     'Rp. 85.000',
     'Rp. 100.000',
   ];
+  
+  @override
+  void initState() {
+    super.initState();
+    _dio.options = BaseOptions(
+      baseUrl: AppConstant.baseUrl
+    );
+  }
 
   // Widget _buildChips() {
   //   List<Widget> chips = [];
@@ -174,11 +200,20 @@ class _FormDonasiState extends State<FormDonasi> {
                             height: 8,
                           ),
                           TextFormField(
+                            controller: namaDonaturController,
+                            enabled: isSwitched != true,
                             decoration: InputDecoration(
                               hintText: 'Masukan nama Anda',
                               suffixIcon: Icon(
                                 Icons.person,
                                 color: primaryColor,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: greyColor,
+                                ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
@@ -215,6 +250,11 @@ class _FormDonasiState extends State<FormDonasi> {
                                   setState(
                                     () {
                                       isSwitched = value;
+                                      if(isSwitched) {
+                                        namaDonaturController.text = "Hamba Allah";
+                                      } else {
+                                        namaDonaturController.clear();
+                                      }
                                     },
                                   );
                                 },
@@ -265,6 +305,9 @@ class _FormDonasiState extends State<FormDonasi> {
                                       if (selected) {
                                         // _selectedIndex = i;
                                         _selectedIndex = _options.indexOf(e);
+                                        if(currenccyFormater.getUnformattedValue() == 0) {
+                                          nominalFixController.text = e.replaceAll("Rp. ", "").replaceAll(".", "").trim();
+                                        }
                                       }
                                     });
                                   },
@@ -345,6 +388,11 @@ class _FormDonasiState extends State<FormDonasi> {
                                 ),
                               ),
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                nominalFixController.text = currenccyFormater.getUnformattedValue().toString();
+                              });
+                            },
                           ),
                           const SizedBox(
                             height: 20,
@@ -358,12 +406,16 @@ class _FormDonasiState extends State<FormDonasi> {
                               Expanded(
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (contex) => DetailPayment(),
-                                      ),
-                                    );
+                                    // print("Nominal : ${nominalFixController.text}");
+                                    // print("Nama : ${namaDonaturController.text}");
+                                    formDonasi();
+
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (contex) => DetailPayment(),
+                                    //   ),
+                                    // );
                                   },
                                   style: TextButton.styleFrom(
                                     backgroundColor: primaryColor,
@@ -371,7 +423,7 @@ class _FormDonasiState extends State<FormDonasi> {
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                   ),
-                                  child: Row(
+                                  child: isLoading? const CircularProgressIndicator.adaptive() : Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
@@ -406,6 +458,38 @@ class _FormDonasiState extends State<FormDonasi> {
         ),
       ),
     );
+  }
+  
+  void formDonasi() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      _dio.options = BaseOptions(baseUrl: AppConstant.baseUrl);
+      var response = await _dio.post("/donations/transactions/${widget.donationId}",
+      data: {
+        'name' : namaDonaturController.text,
+        'nominal' : nominalFixController.text,
+      },
+        options: Options(headers: {"Accept": "aplication/json"}));
+      print(response.data);
+      if (response.statusCode == 201) {
+        formDonasiModel= FormDonasiModel.fromJson(response.data);
+        print(response.data);
+        setState(() {
+          isLoading = false;
+        });
+        if (formDonasiModel?.status == true) {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MetodePayment()));
+        }
+        print(response.data);
+      }
+    } on DioError catch (e) {
+      print(e.response);
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 }
 

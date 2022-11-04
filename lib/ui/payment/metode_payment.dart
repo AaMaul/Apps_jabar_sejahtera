@@ -5,14 +5,14 @@ import 'package:jabar_sejahtera/constant/app_constant.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
 import 'package:jabar_sejahtera/ui/payment/detail_payment.dart';
 
-class DetailPayment extends StatefulWidget {
-  const DetailPayment({Key? key}) : super(key: key);
+class MetodePayment extends StatefulWidget {
+  const MetodePayment({Key? key}) : super(key: key);
 
   @override
-  State<DetailPayment> createState() => _DetailPaymentState();
+  State<MetodePayment> createState() => _MetodePaymentState();
 }
 
-class _DetailPaymentState extends State<DetailPayment> {
+class _MetodePaymentState extends State<MetodePayment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

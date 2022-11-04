@@ -121,15 +121,21 @@ class _PageMyProfileState extends State<PageMyProfile> {
                       onTap: () {
                         getSinglePhoto();
                       },
-                      child: Container(
-                        child: fotoProfile == null  ? Image.asset(
-                          enableEditName == true && enableEditEmail == true ? 'assets/img/img_profile.png' :'assets/img/img_profile.png',
-                          width: 100,
-                          height: 100,
-                        ) : Image.network(_profileModel?.data?.image ?? "https://"),
+                       child: CircleAvatar(
+                         backgroundColor: Colors.transparent,
+                         radius: 50,
+                         child: Image.network(_profileModel?.data?.userDetail?.image ?? "https://",),
+                       // child: CircleAvatar(radius: 60, backgroundImage: NetworkImage(_profileModel?.data?.userDetail?.image ?? "https://",),
+                           // child: Image.network(fit: BoxFit.fitHeight, _profileModel?.data?.userDetail?.image ?? "https://",)),
+                      // child: Container(
+                      //   child: _profileModel?.data?.image == null  ? Image.asset(
+                      //     enableEditName == true && enableEditEmail == true ? 'assets/img/img_profile.png' :'assets/img/img_profile.png',
+                      //     width: 100,
+                      //     height: 100,
+                      //   ) : Image.network(_profileModel?.data?.image ?? "https://"),
                       ),
-                    ),
-                  ),
+                    // ),
+                  ),)
                 ],
               ),
               const SizedBox(
