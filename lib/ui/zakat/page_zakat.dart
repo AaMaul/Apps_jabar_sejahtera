@@ -40,6 +40,8 @@ class _PageZakatState extends State<PageZakat> {
   @override
   void initState() {
     super.initState();
+    print(widget.totalBayar.toString());
+    nominalZakatController.text = currencyFormater.format(widget.totalBayar.toString());
     _dio.options = BaseOptions(
       baseUrl: AppConstant.baseUrl
     );

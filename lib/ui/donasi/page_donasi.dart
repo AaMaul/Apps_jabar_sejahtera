@@ -43,6 +43,7 @@ class _PageDonasiState extends State<PageDonasi> {
   DonationModel? donationModel;
 
   bool isLoading = false;
+  List<Data?>? listDonate = [];
 
   @override
   void initState() {
@@ -100,7 +101,25 @@ class _PageDonasiState extends State<PageDonasi> {
                 style: GoogleFonts.beVietnamPro().copyWith(
                   fontSize: 14,
                 ),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    listDonate = listDonate
+                        ?.where((element) =>
+                    element?.title
+                        ?.toLowerCase()
+                        .contains(
+                        value.toLowerCase()) ==
+                        true)
+                        .toList();
+                   setState(() {
+                   });
+                  } else {
+                    listDonate?.clear();
+                    listDonasi();
+                    setState(() {
+                    });
+                  }
+                },
                 decoration: InputDecoration(
                   hintText: 'Cari Program Donasi',
                   suffixIcon: Padding(
@@ -135,7 +154,7 @@ class _PageDonasiState extends State<PageDonasi> {
                   child: ListView.builder(
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: donationModel?.data?.length,
+                      itemCount: listDonate?.length,
                       itemBuilder: (context, index) => SizedBox(
                             width: MediaQuery.of(context).size.width,
                             child: GestureDetector(
@@ -145,7 +164,7 @@ class _PageDonasiState extends State<PageDonasi> {
                                   MaterialPageRoute(
                                     builder: (contex) => DetailDonasi(
                                       index: index,
-                                      donationModel: donationModel?.data?[index],
+                                      donationModel: listDonate?[index],
                                     ),
                                   ),
                                 );
@@ -154,7 +173,7 @@ class _PageDonasiState extends State<PageDonasi> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Image.network(
-                                    donationModel?.data?[index].image ?? "https://",
+                                    listDonate?[index]?.image ?? "https://",
                                     height: 150,
                                     width: 150,
                                   ),
@@ -173,7 +192,7 @@ class _PageDonasiState extends State<PageDonasi> {
                                           SizedBox(
                                             width: MediaQuery.of(context).size.width - 200,
                                             child: Text(
-                                              donationModel?.data?[index].title ?? "-",
+                                              listDonate?[index]?.title ?? "-",
                                               overflow: TextOverflow.ellipsis,
                                               style: GoogleFonts.beVietnamPro()
                                                   .copyWith(
@@ -191,13 +210,16 @@ class _PageDonasiState extends State<PageDonasi> {
                                                 Icons.pin_drop,
                                                 size: 20,
                                               ),
-                                              Text(
-                                                donationModel?.data?[index].location ?? "-",
-                                                overflow: TextOverflow.ellipsis,
-                                                style: GoogleFonts.beVietnamPro()
-                                                    .copyWith(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width - 200,
+                                                child: Text(
+                                                  listDonate?[index]?.location ?? "-",
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: GoogleFonts.beVietnamPro()
+                                                      .copyWith(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -213,9 +235,9 @@ class _PageDonasiState extends State<PageDonasi> {
                                             animation: true,
                                             lineHeight: 15.0,
                                             animationDuration: 1000,
-                                            percent: double.parse(donationModel?.data?[index].totalCollected.toString() ?? "0") / double.parse( donationModel?.data?[index].totalBudget.toString() ?? "0") > 1 ? 1.0 : double.parse(donationModel?.data?[index].totalCollected.toString() ?? "0") / double.parse( donationModel?.data?[index].totalBudget.toString() ?? "0"),
+                                            percent: double.parse(listDonate?[index]?.totalCollected.toString() ?? "0") / double.parse( listDonate?[index]?.totalBudget.toString() ?? "0") > 1 ? 1.0 : double.parse(listDonate?[index]?.totalCollected.toString() ?? "0") / double.parse( listDonate?[index]?.totalBudget.toString() ?? "0"),
                                             center: Text(
-                                              "${NumberFormat("###.##").format(double.parse(donationModel?.data?[index].totalCollected.toString() ?? "0") / double.parse( donationModel?.data?[index].totalBudget.toString() ?? "0") * 100)}%",
+                                              "${NumberFormat("###.##").format(double.parse(listDonate?[index]?.totalCollected.toString() ?? "0") / double.parse( listDonate?[index]?.totalBudget.toString() ?? "0") * 100)}%",
                                               style: GoogleFonts.beVietnamPro()
                                                   .copyWith(
                                                 fontSize: 12,
@@ -257,7 +279,7 @@ class _PageDonasiState extends State<PageDonasi> {
                                                       height: 5,
                                                     ),
                                                     Text(
-                                                      currencyFormater.format(donationModel?.data?[index].totalCollected.toString() ?? "0").toString(),
+                                                      currencyFormater.format(listDonate?[index]?.totalCollected.toString() ?? "0").toString(),
                                                       style: GoogleFonts
                                                               .beVietnamPro()
                                                           .copyWith(
@@ -283,7 +305,7 @@ class _PageDonasiState extends State<PageDonasi> {
                                                       height: 5,
                                                     ),
                                                     Text(
-                                                     currencyFormater.format(donationModel?.data?[index].totalBudget.toString() ?? "-"),
+                                                     currencyFormater.format(listDonate?[index]?.totalBudget.toString() ?? "-"),
                                                       style: GoogleFonts
                                                               .beVietnamPro()
                                                           .copyWith(
@@ -321,6 +343,7 @@ class _PageDonasiState extends State<PageDonasi> {
           options: Options(headers: {"Accept": "application/json"}));
       print(response.data);
       donationModel = DonationModel.fromJson(response.data);
+      listDonate = donationModel?.data;
       setState(() {});
     } on DioError catch (e) {
       print(e.response?.data);

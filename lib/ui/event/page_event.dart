@@ -22,6 +22,7 @@ class _PageEventState extends State<PageEvent> {
   EventModel? eventModel;
 
   bool isLoading = false;
+  List<Data?>? listEven = [];
 
   @override
   void initState() {
@@ -70,7 +71,25 @@ class _PageEventState extends State<PageEvent> {
                 style: GoogleFonts.beVietnamPro().copyWith(
                   fontSize: 14,
                 ),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    listEven = listEven
+                        ?.where((element) =>
+                    element?.title
+                        ?.toLowerCase()
+                        .contains(
+                        value.toLowerCase()) ==
+                        true)
+                        .toList();
+                    setState(() {
+                    });
+                  } else {
+                    listEven?.clear();
+                    listEvent();
+                    setState(() {
+                    });
+                  }
+                },
                 decoration: InputDecoration(
                   hintText: 'Cari Event',
                   suffixIcon: Padding(
@@ -103,7 +122,7 @@ class _PageEventState extends State<PageEvent> {
               child: ListView.builder(
                 primary: false,
                 shrinkWrap: true,
-                itemCount: eventModel?.data?.length,
+                itemCount: listEven?.length,
                 itemBuilder: (context, index) => SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: GestureDetector(
@@ -113,7 +132,7 @@ class _PageEventState extends State<PageEvent> {
                         MaterialPageRoute(
                           builder: (context) => PageDetailEvent(
                             index: index,
-                            eventModel: eventModel?.data?[index],
+                            eventModel: listEven?[index],
                           ),
                         ),
                       );
@@ -137,7 +156,7 @@ class _PageEventState extends State<PageEvent> {
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width - 240,
                                       child: Text(
-                                        eventModel?.data?[index].title ?? "-",
+                                        listEven?[index]?.title ?? "-",
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.beVietnamPro().copyWith(
                                           fontSize: 16,
@@ -164,7 +183,7 @@ class _PageEventState extends State<PageEvent> {
                                       width: 10,
                                     ),
                                     Text(
-                                      eventModel?.data?[index].organizer ?? "_",
+                                      listEven?[index]?.organizer ?? "_",
                                       style: GoogleFonts.beVietnamPro().copyWith(
                                         fontSize: 14,
                                       ),
@@ -184,7 +203,7 @@ class _PageEventState extends State<PageEvent> {
                                       width: 5,
                                     ),
                                     Text(
-                                      eventModel?.data?[index].location ?? "_",
+                                      listEven?[index]?.location ?? "_",
                                       style: GoogleFonts.beVietnamPro().copyWith(
                                         fontSize: 14,
                                       ),
@@ -204,7 +223,7 @@ class _PageEventState extends State<PageEvent> {
                                       width: 10,
                                     ),
                                     Text(
-                                      eventModel?.data?[index].date ?? "-",
+                                      listEven?[index]?.date ?? "-",
                                       style: GoogleFonts.beVietnamPro().copyWith(
                                         fontSize: 14,
                                       ),
@@ -222,7 +241,7 @@ class _PageEventState extends State<PageEvent> {
                                 right: 5,
                               ),
                               child: Image.network(
-                                eventModel?.data?[index].image ?? "https://",
+                                listEven?[index]?.image ?? "https://",
                                 width: 150,
                                 height: 150,
                               ),
@@ -251,6 +270,7 @@ class _PageEventState extends State<PageEvent> {
           options: Options(headers: {"Accept": "application/json"}));
       print(response.data);
       eventModel = EventModel.fromJson(response.data);
+      listEven = eventModel?.data;
       setState(() {});
     } on DioError catch (e) {
       print(e.response?.data);

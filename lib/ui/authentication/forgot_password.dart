@@ -1,6 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jabar_sejahtera/data/model/forgot__password_model.dart';
+import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
+import 'package:jabar_sejahtera/ui/login/login.dart';
+
+import '../../constant/app_constant.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -12,9 +18,27 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   bool isObscure = true;
   bool isObscure1 = true;
-  String hint = 'Pilih Petanyaan Kemanan';
-  List<String> items = ['Nama Mantan Kamu', 'Nama Samaran Kamu'];
+  // String hint = 'Pilih Petanyaan Kemanan';
+  // List<String> items = ['Nama Mantan Kamu', 'Nama Samaran Kamu'];
   String? selectedValue;
+
+  final emailController = TextEditingController();
+  final mantanController = TextEditingController();
+  final passwordController = TextEditingController();
+  final konfirmasiPasswordController = TextEditingController();
+  
+  ForgotPasswordModel? forgotPasswordModel;
+  final storage = StorageManager();
+  final _dio = Dio();
+  final _formkey = GlobalKey<FormState>();
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    _dio.options = BaseOptions(baseUrl: AppConstant.baseUrl);
+    forgotPassword();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +54,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      Icons.arrow_back,
-                      color: listColor,
-                      size: 35,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: listColor,
+                        size: 35,
+                      ),
                     ),
+                    const SizedBox(width: 10,),
                     Text(
                       'Lupa Password',
                       style: GoogleFonts.mali().copyWith(
@@ -49,7 +79,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Container(
                 margin: const EdgeInsets.only(
                   left: 10,
-                  top: 30,
+                  top: 50,
                   right: 10,
                 ),
                 child: Align(
@@ -69,6 +99,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         height: 8,
                       ),
                       TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           hintText: 'Masukan Email yang terdaftar',
                           suffixIcon: Icon(
@@ -81,37 +112,38 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           contentPadding: const EdgeInsets.all(12),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
-                      DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                        ),
-                        isExpanded: true,
-                        hint: Text(hint),
-                        items: items
-                            .map((item) => DropdownMenuItem<String>(
-                                value: item, child: Text(item)))
-                            .toList(),
-                        onChanged: (value) {},
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
+                      // DropdownButtonFormField(
+                      //   decoration: InputDecoration(
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(14),
+                      //     ),
+                      //   ),
+                      //   isExpanded: true,
+                      //   hint: Text(hint),
+                      //   items: items
+                      //       .map((item) => DropdownMenuItem<String>(
+                      //           value: item, child: Text(item)))
+                      //       .toList(),
+                      //   onChanged: (value) {},
+                      // ),
+                      // const SizedBox(
+                      //   height: 16,
+                      // ),
                       Text(
-                        'Jawaban Keamanan',
+                        'Nama Mantan Kamu',
                         style: GoogleFonts.mali().copyWith(
                           fontSize: 14,
                           fontWeight: bold,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       TextFormField(
+                        controller: mantanController,
                         decoration: InputDecoration(
                           hintText: 'Masukan Jawaban Anda',
                           suffixIcon: Icon(
@@ -125,7 +157,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ),
                       ),
                       const SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
                       Text(
                         'Password Baru',
@@ -138,6 +170,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         height: 8,
                       ),
                       TextFormField(
+                        controller: passwordController,
                         obscureText: isObscure,
                         decoration: InputDecoration(
                           hintText: 'Buat Password Baru',
@@ -174,6 +207,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         height: 8,
                       ),
                       TextFormField(
+                        controller: konfirmasiPasswordController,
                         obscureText: isObscure1,
                         decoration: InputDecoration(
                           hintText: 'Masukan kembali password Anda',
@@ -203,7 +237,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         width: double.infinity,
                         height: 50,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            forgotPassword();
+                          },
                           style: TextButton.styleFrom(
                             backgroundColor: primaryColor,
                             shape: RoundedRectangleBorder(
@@ -228,5 +264,46 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
       ),
     );
+  }
+  
+  void forgotPassword() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      _dio.options = BaseOptions(baseUrl: AppConstant.baseUrl);
+      var respon = await _dio.put("/users/forgot-password",
+      data: {
+        'email' : emailController.text,
+        'password' : passwordController.text,
+        'password_confirmation' : konfirmasiPasswordController.text,
+        'security_question' : mantanController.text,
+      },
+        options: Options(headers: {
+          "Accept" : "aplication/json",
+
+        }));
+      if(respon.statusCode == 200) {
+        /// udah sukses update password
+        forgotPasswordModel = ForgotPasswordModel.fromJson(respon.data);
+        setState(() {
+          isLoading = false;
+        });
+        if (forgotPasswordModel?.status == true) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Password Berhasil Dirubah!")));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+        }
+        print(respon.data);
+      }
+    } on DioError catch (e) {
+      print(e.response);
+      setState(() {
+        isLoading = false;
+      });
+      if (e.response?.statusCode != 200) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Gagal ganti password")));
+          /// gagal update password
+      }
+    }
   }
 }

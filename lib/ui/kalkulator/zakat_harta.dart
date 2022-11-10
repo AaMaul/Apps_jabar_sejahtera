@@ -783,7 +783,7 @@ class _ZakatHartaState extends State<ZakatHarta> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (contex) => PageZakat(totalBayar: harusbayarblnFormater.getUnformattedValue()),
+                              builder: (contex) => PageZakat(totalBayar: perbulanController.text.replaceAll("Rp. ", "").replaceAll(".", "")),
                             ),
                           );
                         },

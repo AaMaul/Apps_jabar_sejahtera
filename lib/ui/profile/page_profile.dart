@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jabar_sejahtera/constant/app_constant.dart';
 import 'package:jabar_sejahtera/data/model/profile_model.dart';
 import 'package:jabar_sejahtera/data/storage_manager.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../theme/theme.dart';
 import '../login/login.dart';
@@ -121,12 +122,18 @@ class _PageMyProfileState extends State<PageMyProfile> {
                       onTap: () {
                         getSinglePhoto();
                       },
-                       child: CircleAvatar(
-                         backgroundColor: Colors.transparent,
-                         radius: 50,
-                         child: Image.network(_profileModel?.data?.userDetail?.image ?? "https://",),
-                       // child: CircleAvatar(radius: 60, backgroundImage: NetworkImage(_profileModel?.data?.userDetail?.image ?? "https://",),
-                           // child: Image.network(fit: BoxFit.fitHeight, _profileModel?.data?.userDetail?.image ?? "https://",)),
+                       child: SizedBox(
+                         height: 85,
+                         width: 60,
+                         child: FittedBox(
+                           fit: BoxFit.fitHeight,
+                           child: isLoading?Lottie.asset('assets/vector/image_loader.json') : CircleAvatar(
+                             backgroundColor: Colors.transparent,
+                             radius: 50,
+                             backgroundImage: NetworkImage(_profileModel?.data?.userDetail?.image ?? "https://",),
+                             // child: isLoading?Lottie.asset('assets/vector/image_loader.json'):Image.network(_profileModel?.data?.userDetail?.image ?? "https://",),
+                           // child: CircleAvatar(radius: 60, backgroundImage: NetworkImage(_profileModel?.data?.userDetail?.image ?? "https://",),
+                               // child: Image.network(fit: BoxFit.fitHeight, _profileModel?.data?.userDetail?.image ?? "https://",)),
                       // child: Container(
                       //   child: _profileModel?.data?.image == null  ? Image.asset(
                       //     enableEditName == true && enableEditEmail == true ? 'assets/img/img_profile.png' :'assets/img/img_profile.png',
@@ -134,6 +141,8 @@ class _PageMyProfileState extends State<PageMyProfile> {
                       //     height: 100,
                       //   ) : Image.network(_profileModel?.data?.image ?? "https://"),
                       ),
+                         ),
+                       ),
                     // ),
                   ),)
                 ],
@@ -291,6 +300,7 @@ class _PageMyProfileState extends State<PageMyProfile> {
                                 actions: [
                                   TextButton(
                                     style: TextButton.styleFrom(
+                                      backgroundColor: primaryColor,
                                         textStyle: GoogleFonts.mali()
                                             .copyWith(fontSize: 14)),
                                     onPressed: () {
@@ -310,12 +320,13 @@ class _PageMyProfileState extends State<PageMyProfile> {
                                       style: GoogleFonts.mali().copyWith(
                                         fontSize: 18,
                                         fontWeight: bold,
-                                        color: Colors.black,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
                                   TextButton(
                                     style: TextButton.styleFrom(
+                                      backgroundColor: Colors.red,
                                         textStyle: GoogleFonts.mali()
                                             .copyWith(fontSize: 14)),
                                     onPressed: () {
@@ -326,7 +337,7 @@ class _PageMyProfileState extends State<PageMyProfile> {
                                       style: GoogleFonts.mali().copyWith(
                                         fontSize: 18,
                                         fontWeight: bold,
-                                        color: Colors.red,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
@@ -473,6 +484,7 @@ class _PageMyProfileState extends State<PageMyProfile> {
           isLoading = false;
         });
       }
+      getUserProfile();
     } on DioError catch (e) {
       setState(() {
         isLoading = false;
@@ -496,7 +508,6 @@ class _PageMyProfileState extends State<PageMyProfile> {
       // User canceled the picker
     }
   }
-
 }
 
 // body: SafeArea(

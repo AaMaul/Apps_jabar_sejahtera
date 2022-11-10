@@ -45,8 +45,6 @@ class _MainPageState extends State<MainPage> {
     super.initState();
   }
 
-
-
   void _onItemTapped(int index) {
     switch (index) {
       case 1:
@@ -71,7 +69,7 @@ class _MainPageState extends State<MainPage> {
         break;
       case 3:
         {
-          if(storage.getAccessToken() == null) {
+          if (storage.getAccessToken() == null) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -80,7 +78,7 @@ class _MainPageState extends State<MainPage> {
             );
           } else {
             setState(
-                  () {
+              () {
                 _selectedIndex = index;
               },
             );
@@ -102,6 +100,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primaryColor,
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -196,6 +195,7 @@ class _MainPageState extends State<MainPage> {
         onTap: _onItemTapped,
       ),
       floatingActionButton: FloatingActionButton(
+        clipBehavior: Clip.none,
         backgroundColor: primaryColor,
         onPressed: () {
           Navigator.push(context,

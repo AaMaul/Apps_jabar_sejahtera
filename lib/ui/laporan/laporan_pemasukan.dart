@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:jabar_sejahtera/constant/app_constant.dart';
+import 'package:jabar_sejahtera/data/model/pemasukan_donasi_model.dart';
 import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
+import 'package:lottie/lottie.dart';
 
 class LaporanPemasukan extends StatefulWidget {
   const LaporanPemasukan({Key? key}) : super(key: key);
@@ -25,22 +27,27 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
   final _dio = Dio();
   final storage = StorageManager();
 
+  PemasukanDonasiModel? pemasukanDonasiModel;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    _dio.options = BaseOptions(baseUrl: AppConstant.baseUrl);
+    getListPemasukanDonasi();
+    inputStartDate.text = DateFormat("dd-MM-yyyy").format(DateTime.now().subtract(const Duration(days: 7)));
+    inputEndDate.text = DateFormat("dd-MM-yyyy").format(DateTime.now());
+    super.initState();
+  }
+
   String hint = 'Pilih Jenis Pemasukan';
   final List<String> items = [
     'Zakat',
     'Donasi',
   ];
-  String? selectedValue;
+  String? selectedValue = "Donasi";
 
-  TextEditingController dateinput = TextEditingController();
-  TextEditingController dateinput1 = TextEditingController();
-
-  @override
-  void initState() {
-    dateinput.text = "Pilih Date";
-    dateinput1.text = "Pilih Date";
-    super.initState();
-  }
+  TextEditingController inputStartDate = TextEditingController();
+  TextEditingController inputEndDate = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,15 +69,21 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                           )),
                     ),
                     isExpanded: true,
-                    hint: Text(hint),
+                    hint: Text(selectedValue ?? items.first),
                     dropdownDecoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    // value: items.first,
                     items: items
                         .map((item) => DropdownMenuItem<String>(
                             value: item, child: Text(item)))
                         .toList(),
-                    onChanged: (value) {}),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                        getListPemasukanDonasi();
+                      });
+                    }),
                 const SizedBox(
                   height: 15,
                 ),
@@ -93,7 +106,7 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                             height: 75,
                             width: 150,
                             child: TextFormField(
-                              controller: dateinput,
+                              controller: inputStartDate,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.calendar_month_rounded),
                               ),
@@ -111,11 +124,12 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                                           .format(pickeDate);
                                   print(formattedDate);
                                   setState(() {
-                                    dateinput.text = formattedDate;
+                                    inputStartDate.text = formattedDate;
                                   });
                                 } else {
                                   print("Date is not selected");
                                 }
+                                getListPemasukanDonasi();
                               },
                             ),
                           ),
@@ -134,7 +148,7 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                             height: 75,
                             width: 150,
                             child: TextFormField(
-                              controller: dateinput1,
+                              controller: inputEndDate,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.calendar_month_rounded),
                               ),
@@ -152,11 +166,12 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                                           .format(pickeDate);
                                   print(formattedDate);
                                   setState(() {
-                                    dateinput1.text = formattedDate;
+                                    inputEndDate.text = formattedDate;
                                   });
                                 } else {
                                   print("Date is not selected");
                                 }
+                                getListPemasukanDonasi();
                               },
                             ),
                           ),
@@ -165,57 +180,115 @@ class _LaporanPemasukanState extends State<LaporanPemasukan> {
                     ],
                   ),
                 ),
-                ListView.builder(
+                isLoading?Lottie.asset("assets/vector/loading_data.json"): pemasukanDonasiModel?.data?.isNotEmpty == true ? ListView(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.vertical,
-                    itemCount: AppConstant.listPemasukan.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                AppConstant.listPemasukan[index]['no']!,
+                    children: pemasukanDonasiModel?.data?.map((e) => Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 50,
+                              child: Text(
+                                '${e.id}',
                                 style: GoogleFonts.beVietnamPro().copyWith(
                                   fontSize: 14,
                                   fontWeight: bold,
                                 ),
                               ),
-                              Text(
-                                AppConstant.listPemasukan[index]['tgl']!,
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: Text(
+                                e.createdAt ??
+                                    '',
                                 style: GoogleFonts.beVietnamPro().copyWith(
                                   fontSize: 14,
                                   fontWeight: bold,
                                 ),
                               ),
-                              Text(
-                                AppConstant.listPemasukan[index]['pemasukan']!,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.33,
+                              child: Text(
+                                e.name ?? '',
+                                overflow: TextOverflow.ellipsis,
                                 style: GoogleFonts.beVietnamPro().copyWith(
                                   fontSize: 14,
                                   fontWeight: bold,
                                 ),
                               ),
-                              Text(
-                                AppConstant.listPemasukan[index]['nominal']!,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: Text(
+                                currencyFormater
+                                    .format(e.nominal
+                                    .toString() ??
+                                    '0')
+                                    .toString(),
                                 style: GoogleFonts.beVietnamPro().copyWith(
                                   fontSize: 14,
                                   fontWeight: bold,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    }),
+                      ),
+                    )).toList() ?? [],
+                    // itemCount: pemasukanDonasiModel?.data?.length,
+                    // itemBuilder: (context, index) {
+                    //   return ;
+                    // }),
+                ) : Lottie.asset("assets/vector/loading_nodata.json"),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  void getListPemasukanDonasi() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      var response = await _dio.get("/reports/${selectedValue == "Zakat" ? "zakat": "donation"}",
+          queryParameters: {
+            "start_date": inputStartDate.text,
+            "end_date": inputEndDate.text,
+          },
+          options: Options(headers: {"Accept": "application/json"}));
+      print(response.realUri.toString());
+      print(response.data);
+      setState(() {
+        pemasukanDonasiModel = PemasukanDonasiModel.fromJson(response.data);
+        isLoading = false;
+      });
+    } on DioError catch (e) {
+      print(e.response?.data);
+      setState(() {
+        isLoading = false;
+      });
+      String errorMessage = "";
+      if (e.response?.statusCode != 200) {
+        errorMessage = e.message;
+      }
+    }
   }
 }
 

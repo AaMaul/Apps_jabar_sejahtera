@@ -593,7 +593,7 @@ class _ZakatPenghasilanState extends State<ZakatPenghasilan> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (contex) => PageZakat(totalBayar: harusBayarblnFormater.getUnformattedValue()),
+                              builder: (contex) => PageZakat(totalBayar: perbulanController.text.replaceAll("Rp. ", "").replaceAll(".", "")),
                             ),
                           );
                         },
