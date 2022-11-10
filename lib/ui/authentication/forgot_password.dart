@@ -102,7 +102,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         controller: emailController,
                         decoration: InputDecoration(
                           hintText: 'Masukan Email yang terdaftar',
-                          suffixIcon: Icon(
+                          prefixIcon: Icon(
                             Icons.mail,
                             color: listColor,
                           ),
@@ -146,7 +146,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         controller: mantanController,
                         decoration: InputDecoration(
                           hintText: 'Masukan Jawaban Anda',
-                          suffixIcon: Icon(
+                          prefixIcon: Icon(
                             Icons.question_answer,
                             color: listColor,
                           ),
@@ -174,6 +174,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         obscureText: isObscure,
                         decoration: InputDecoration(
                           hintText: 'Buat Password Baru',
+                          prefixIcon: Icon(Icons.key_rounded, color: listColor,),
                           suffixIcon: IconButton(
                             icon: Icon(
                               isObscure
@@ -211,6 +212,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         obscureText: isObscure1,
                         decoration: InputDecoration(
                           hintText: 'Masukan kembali password Anda',
+                          prefixIcon: Icon(Icons.key_rounded, color: listColor,),
                           suffixIcon: IconButton(
                             icon: Icon(
                               isObscure1

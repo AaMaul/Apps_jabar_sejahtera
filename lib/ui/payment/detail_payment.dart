@@ -8,7 +8,6 @@ import '../../theme/theme.dart';
 
 class DetailPembayaran extends StatefulWidget {
   final String image;
-
   const DetailPembayaran({Key? key, required this.image}) : super(key: key);
 
   @override

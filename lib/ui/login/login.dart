@@ -129,7 +129,7 @@ class _LoginState extends State<Login> {
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
-                            suffixIcon: Icon(
+                            prefixIcon: Icon(
                               Icons.mark_email_read_outlined,
                               color: listColor,
                             ),
@@ -161,6 +161,7 @@ class _LoginState extends State<Login> {
                           controller: passwordController,
                           obscureText: isObscure,
                           decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.vpn_key_outlined, color: listColor,),
                             suffixIcon: IconButton(
                               icon: Icon(
                                 isObscure

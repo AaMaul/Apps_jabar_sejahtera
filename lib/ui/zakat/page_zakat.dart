@@ -392,7 +392,7 @@ class _PageZakatState extends State<PageZakat> {
           isLoading = false;
         });
         if (formZakatModel?.status == true) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MetodePayment()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MetodePayment(totalBayar: nominalZakatController.text.replaceAll("Rp. ", "").replaceAll(".", ""))));
         }
         print(response.data);
       }

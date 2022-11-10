@@ -1,18 +1,42 @@
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jabar_sejahtera/constant/app_constant.dart';
+import 'package:jabar_sejahtera/data/storage_manager.dart';
 import 'package:jabar_sejahtera/theme/theme.dart';
 import 'package:jabar_sejahtera/ui/payment/detail_payment.dart';
 
 class MetodePayment extends StatefulWidget {
-  const MetodePayment({Key? key}) : super(key: key);
+  final totalBayar;
+  const MetodePayment({Key? key, required this.totalBayar}) : super(key: key);
 
   @override
   State<MetodePayment> createState() => _MetodePaymentState();
 }
 
+
 class _MetodePaymentState extends State<MetodePayment> {
+  final _dio = Dio();
+  final storage = StorageManager();
+  final totalBayarController = TextEditingController();
+
+  var currencyFormater = CurrencyTextInputFormatter(
+    locale: 'id',
+    decimalDigits: 0,
+    symbol: 'Rp. ',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    totalBayarController.text = currencyFormater.format(widget.totalBayar.toString());
+    _dio.options = BaseOptions(
+      baseUrl: AppConstant.baseUrl
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +91,8 @@ class _MetodePaymentState extends State<MetodePayment> {
                         'assets/img/img_ic_pembayaran.png',
                       ),
                       Text(
-                        'Rp. 175.000',
+                        currencyFormater.format(widget.totalBayar.toString()),
+                        // 'Rp. 175.000',
                         style: GoogleFonts.beVietnamPro().copyWith(
                           fontSize: 30,
                           fontWeight: extraBold,

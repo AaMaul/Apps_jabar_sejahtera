@@ -103,7 +103,7 @@ class _RegisterState extends State<Register> {
                         },
                         decoration: InputDecoration(
                           hintText: 'Masukan Nama Lengkap',
-                          suffixIcon: Icon(
+                          prefixIcon: Icon(
                             Icons.person,
                             color: listColor,
                           ),
@@ -150,7 +150,7 @@ class _RegisterState extends State<Register> {
                         },
                         decoration: InputDecoration(
                           hintText: 'Masukan No Tlp Aktif',
-                          suffixIcon: Icon(
+                          prefixIcon: Icon(
                             Icons.phone,
                             color: listColor,
                           ),
@@ -196,7 +196,7 @@ class _RegisterState extends State<Register> {
                         },
                         decoration: InputDecoration(
                           hintText: 'Masukan Email Aktif',
-                          suffixIcon: Icon(
+                          prefixIcon: Icon(
                             Icons.email,
                             color: listColor,
                           ),
@@ -243,6 +243,7 @@ class _RegisterState extends State<Register> {
                         obscureText: isObscure,
                         decoration: InputDecoration(
                           hintText: 'Buat Password Anda',
+                          prefixIcon: Icon(Icons.key_rounded, color: listColor,),
                           suffixIcon: IconButton(
                             icon: Icon(
                               isObscure
@@ -303,6 +304,7 @@ class _RegisterState extends State<Register> {
                         obscureText: isObscure1,
                         decoration: InputDecoration(
                           hintText: 'Masukan kembali Password Anda',
+                          prefixIcon: Icon(Icons.key_rounded, color: listColor,),
                           suffixIcon: IconButton(
                             icon: Icon(
                               isObscure1
@@ -413,7 +415,7 @@ class _RegisterState extends State<Register> {
                         },
                         decoration: InputDecoration(
                           hintText: 'Masukan Jawabannya',
-                          suffixIcon: Icon(
+                          prefixIcon: Icon(
                             Icons.question_answer,
                             color: listColor,
                           ),

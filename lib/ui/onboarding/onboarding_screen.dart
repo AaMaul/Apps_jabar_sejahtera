@@ -256,7 +256,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               height: 40,
             ),
             Padding(
-              padding: const EdgeInsets.all(24.0),
+              padding: const EdgeInsets.only(left: 10),
               child: Column(
                 children: [
                   Text(

@@ -480,7 +480,7 @@ class _FormDonasiState extends State<FormDonasi> {
           isLoading = false;
         });
         if (formDonasiModel?.status == true) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MetodePayment()));
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MetodePayment(totalBayar: nominalFixController.text.replaceAll("Rp. ", "").replaceAll(".", ""))));
         }
         print(response.data);
       }
